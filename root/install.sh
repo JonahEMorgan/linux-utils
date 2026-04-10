@@ -14,9 +14,9 @@ basestrap /mnt linux-ck linux-firmware linux-headers mkinitcpio
 artix-chroot /mnt
 hwclock --systohc
 locale-gen
-echo "root:morgan" | chpasswd
-useradd -m jonah
-echo "jonah:morgan" | chpasswd
+echo "root:__ROOT_PASSWORD__" | chpasswd
+useradd -m __YOUR_USERNAME__
+echo "__YOUR_USERNAME__:__YOUR_PASSWORD__" | chpasswd
 pacman -S amd-ucode networkmanager-dinit dhcpd msedit egummiboot wpa_supplicant
 ln -s ../NetworkManager /etc/dinit.d/boot.d/
 mkinitcpio -p linux-ck
