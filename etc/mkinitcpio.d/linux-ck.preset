@@ -1,0 +1,6 @@
+ALL_kver="/boot/vmlinuz-linux-ck"
+PRESETS=('default' 'fallback')
+default_uki="/boot/linux-ck.efi"
+default_options="--splash /root/millennium.bmp"
+fallback_uki="/boot/linux-ck-fallback.efi"
+fallback_options="-S autodetect"

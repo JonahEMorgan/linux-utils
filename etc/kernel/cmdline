@@ -1,0 +1,1 @@
+root=/dev/nvme0n1p2 init=/sbin/init rw quiet splash vm.swappiness=100 zswap.enabled=1 zswap.compressor=zstd zswap.zpool=zsmalloc zswap.max_pool_percent=25 zswap.accept_threshold_percent=90 zswap.shrinker_enabled=Y

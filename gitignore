@@ -1,0 +1,14 @@
+*
+!.gitignore
+!etc/conf.d/keymaps
+!etc/hostname
+!etc/kernel/cmdline
+!etc/locale.gen
+!etc/mkinitcpio.d/linux-ck.preset
+!etc/fstab
+!etc/hosts
+!etc/locale.conf
+!etc/localtime
+!etc/vconsole.conf
+!root/install.sh
+!root/millennium.bmp
