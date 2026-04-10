@@ -1,5 +1,6 @@
 *
 !.gitignore
+!README.md
 !etc/conf.d/keymaps
 !etc/hostname
 !etc/kernel/cmdline
@@ -12,3 +13,8 @@
 !etc/vconsole.conf
 !root/install.sh
 !root/millennium.bmp
+!boot/efi/EFI/CLOVER/DRIVERS/UEFI/*.efi
+!boot/efi/EFI/CLOVER/THEMES/AppleFast/**
+!boot/efi/EFI/CLOVER/TOOLS/Shell64.efi
+!boot/efi/EFI/CLOVER/config.plist
+!boot/efi/EFI/BOOT/BOOTX64.efi

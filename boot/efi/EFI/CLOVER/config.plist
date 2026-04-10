@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <!-- ===================== ACPI ===================== -->
+    <key>ACPI</key>
+    <dict>
+        <key>FixHeaders</key>
+        <true/>
+
+        <key>DSDT</key>
+        <dict>
+            <key>Fixes</key>
+            <dict>
+                <key>FixShutdown</key>
+                <true/>
+            </dict>
+
+            <key>Patches</key>
+            <array/>
+        </dict>
+    </dict>
+
+    <!-- ===================== BOOT ===================== -->
+    <key>Boot</key>
+    <dict>
+        <key>Arguments</key>
+        <string>-v npci=0x2000</string>
+
+        <key>DefaultVolume</key>
+        <string>LastBootedVolume</string>
+
+        <key>Timeout</key>
+        <integer>3</integer>
+    </dict>
+
+    <!-- ===================== GUI ===================== -->
+    <key>GUI</key>
+    <dict>
+        <key>ScreenResolution</key>
+        <string>1920x1200</string>
+
+        <key>Theme</key>
+        <string>AppleFast</string>
+
+        <key>Custom</key>
+        <dict>
+            <key>Entries</key>
+            <array>
+
+                <dict>
+                    <key>Title</key>
+                    <string>Artix Linux</string>
+                    <key>Type</key>
+                    <string>Linux</string>
+                    <key>Path</key>
+                    <string>\boot\linux-ck.efi</string>
+                    <key>Volume</key>
+                    <string>ROOT</string>
+                </dict>
+
+                <dict>
+                    <key>Title</key>
+                    <string>Artix Linux (fallback)</string>
+                    <key>Type</key>
+                    <string>Linux</string>
+                    <key>Path</key>
+                    <string>\boot\linux-ck-fallback.efi</string>
+                    <key>Volume</key>
+                    <string>ROOT</string>
+                </dict>
+
+                <dict>
+                    <key>Title</key>
+                    <string>Ventoy USB</string>
+                    <key>Type</key>
+                    <string>Other</string>
+                    <key>Path</key>
+                    <string>\EFI\BOOT\BOOTX64.EFI</string>
+                    <key>Volume</key>
+                    <string>Ventoy</string>
+                </dict>
+
+            </array>
+        </dict>
+
+        <key>Hide</key>
+        <array>
+            <string>Windows</string>
+        </array>
+
+        <key>Scan</key>
+        <dict>
+            <key>Entries</key>
+            <true/>
+            <key>Linux</key>
+            <true/>
+            <key>Tool</key>
+            <true/>
+        </dict>
+    </dict>
+
+    <!-- ===================== DEVICES ===================== -->
+    <key>Devices</key>
+    <dict>
+        <key>Audio</key>
+        <dict>
+            <key>ResetHDA</key>
+            <true/>
+        </dict>
+
+        <key>USB</key>
+        <dict>
+            <key>Inject</key>
+            <true/>
+            <key>FixOwnership</key>
+            <true/>
+        </dict>
+    </dict>
+
+    <!-- ===================== GRAPHICS ===================== -->
+    <key>Graphics</key>
+    <dict>
+        <key>Inject</key>
+        <false/>
+    </dict>
+
+    <!-- ===================== KERNEL / PATCHES ===================== -->
+    <key>KernelAndKextPatches</key>
+    <dict>
+        <key>Debug</key>
+        <false/>
+
+        <key>KextsToPatch</key>
+        <array/>
+
+        <key>KernelToPatch</key>
+        <array/>
+
+        <key>KextsToBlock</key>
+        <array/>
+    </dict>
+
+    <!-- ===================== QUIRKS ===================== -->
+    <key>Quirks</key>
+    <dict>
+        <key>AvoidRuntimeDefrag</key>
+        <true/>
+        <key>DisableIoMapper</key>
+        <true/>
+        <key>DisableLinkeditJettison</key>
+        <true/>
+        <key>EnableWriteUnprotector</key>
+        <true/>
+        <key>SetupVirtualMap</key>
+        <true/>
+        <key>SyncRuntimePermissions</key>
+        <true/>
+        <key>ProvideMaxSlide</key>
+        <integer>0</integer>
+    </dict>
+
+    <!-- ===================== RT VARIABLES ===================== -->
+    <key>RtVariables</key>
+    <dict>
+        <key>BooterConfig</key>
+        <string>0x28</string>
+
+        <key>CsrActiveConfig</key>
+        <string>0x7E7</string>
+    </dict>
+
+    <!-- ===================== SMBIOS (MINIMAL PLACEHOLDER) ===================== -->
+    <key>SMBIOS</key>
+    <dict>
+        <key>ProductName</key>
+        <string>MacPro7,1</string>
+
+        <key>SerialNumber</key>
+        <string>WILL-GENERATE</string>
+
+        <key>BoardSerialNumber</key>
+        <string>WILL-GENERATE</string>
+
+        <key>SmUUID</key>
+        <string>00000000-0000-1000-8000-010203040506</string>
+
+        <key>Trust</key>
+        <true/>
+    </dict>
+
+    <!-- ===================== SYSTEM PARAMETERS ===================== -->
+    <key>SystemParameters</key>
+    <dict>
+        <key>InjectKexts</key>
+        <string>Yes</string>
+
+        <key>InjectSystemID</key>
+        <true/>
+    </dict>
+
+</dict>
+</plist>
