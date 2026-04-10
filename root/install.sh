@@ -11,10 +11,12 @@ mkswap /mnt/swapfile
 swapon /mnt/swapfile
 dinitctl start ntpd
 basestrap /mnt base base-devel dinit elogind-dinit
-basestrap /mnt linux-ck linux-firmware linux-headers mkinitcpio
+basestrap /mnt linux linux-firmware linux-headers
 cp -r "$(dirname "$(realpath "$0")")/"* /mnt
 artix-chroot /mnt
-pacman -Sy efibootmgr f2fs-tools amd-ucode networkmanager-dinit dhcpcd-dinit msedit egummiboot wpa_supplicant
+pacman -Sy aurutils mkinitcpio efibootmgr f2fs-tools amd-ucode networkmanager-dinit dhcpcd-dinit msedit egummiboot wpa_supplicant
+aur sync -c linux-tachyon
+pacman -S linux-tachyon
 efibootmgr -b 0000 -B
 efibootmgr -c -d /dev/nvme0n1 -p 1 -L "Clover" -l "\EFI\BOOT\BOOTX64.efi"
 efibootmgr -o 0000
@@ -25,7 +27,7 @@ locale-gen
 echo "root:__ROOT_PASSWORD__" | chpasswd
 useradd -m __YOUR_USERNAME__
 echo "__YOUR_USERNAME__:__YOUR_PASSWORD__" | chpasswd
-mkinitcpio -p linux-ck
+mkinitcpio -p linux-tachyon
 exit
 unmout -lR /mnt
 reboot

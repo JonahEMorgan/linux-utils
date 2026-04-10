@@ -1,0 +1,6 @@
+ALL_kver="/boot/vmlinuz-linux-tachyon"
+PRESETS=('default' 'fallback')
+default_uki="/boot/linux-tachyon.efi"
+default_options="--splash /root/millennium.bmp"
+fallback_uki="/boot/linux-tachyon-fallback.efi"
+fallback_options="-S autodetect"

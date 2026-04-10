@@ -6,7 +6,7 @@
 !etc/hostname
 !etc/kernel/cmdline
 !etc/locale.gen
-!etc/mkinitcpio.d/linux-ck.preset
+!etc/mkinitcpio.d/linux-tachyon.preset
 !etc/fstab
 !etc/hosts
 !etc/locale.conf
