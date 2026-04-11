@@ -2,7 +2,8 @@
 
 USERNAME="${1:-user}"
 PASSWORD="${2:-1234}"
-BASE_INSTALLED="${3:-false}"
+KERNEL_PRE_COMPILED="${3:-true}"
+BASE_INSTALLED="${4:-false}"
 #KERNEL_ARGS="quiet splash"
 KERNEL_ARGS="loglevel=7"
 KERNEL="linux-tachyon"
@@ -16,6 +17,27 @@ set -x
 if [ "$EUID" -ne 0 ]; then
   exec sudo "$0" "$@"
 fi
+
+# Fix authentication issues
+fix_auth() {
+  pacman-key --init
+  pacman-key --populate artix
+  pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+  pacman-key --lsign-key 3056513887B78AEB
+  pacman -U --noconfirm "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst"
+  pacman -U --noconfirm "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst"
+  sed -i "s/^#chaotic//" /etc/pacman.conf
+  pacman -Sy --noconfirm alhp-keyring alhp-mirrorlist
+  sed -i "s/^#alhp//" /etc/pacman.conf
+  curl -O https://download.sublimetext.com/sublimehq-pub.gpg
+  sudo pacman-key --add sublimehq-pub.gpg
+  sudo pacman-key --lsign-key 8A8F901A
+  rm sublimehq-pub.gpg
+  sed -i "s/^#sublime//" /etc/pacman.conf
+  gpg --locate-keys torvalds@kernel.org gregkh@kernel.org sashal@kernel.org benh@debian.org
+}
+cp "$(dirname "$(realpath "$0")")/"../etc/pacman.conf /etc/pacman.conf
+fix_auth
 
 # Create file systems
 if [ "$BASE_INSTALLED" != "true" ]; then
@@ -38,9 +60,9 @@ swapon /mnt/swapfile
 # Install base system
 dinitctl start ntpd
 if [ "$BASE_INSTALLED" != "true" ]; then
-  basestrap /mnt base base-devel dinit elogind-dinit
+  basestrap /mnt base base-devel dinit elogind-dinit uutils-coreutils-git
   set +e
-  basestrap /mnt linux linux-firmware linux-headers uutils-coreutils-git
+  basestrap /mnt linux-tachyon linux-firmware linux-tachyon-headers
   set -e
   cp -r "$(dirname "$(realpath "$0")")/"../* /mnt
   read -r cmdline < /mnt/etc/kernel/cmdline
@@ -54,33 +76,21 @@ artix-chroot /mnt bash << EOF
   set -x
   
   # Fix authentication issues
-  pacman-key --init
-  pacman-key --populate artix
-  pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-  pacman-key --lsign-key 3056513887B78AEB
-  pacman -U "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst"
-  pacman -U "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst"
-  pacman -Sy --noconfirm alhp-keyring alhp-mirrorlist
-  curl -O https://download.sublimetext.com/sublimehq-pub.gpg
-  sudo pacman-key --add sublimehq-pub.gpg
-  sudo pacman-key --lsign-key 8A8F901A
-  rm sublimehq-pub.gpg
-  gpg --locate-keys torvalds@kernel.org gregkh@kernel.org sashal@kernel.org benh@debian.org
+  fix_auth
 
   # Install kernel
   if [ "$BASE_INSTALLED" != "true" ]; then
     pacman -S --noconfirm git efibootmgr f2fs-tools amd-ucode networkmanager-dinit dhcpcd-dinit msedit egummiboot bc cpio python clang llvm lld
   fi
   cd /var/tmp
-  sudo -u nobody git clone "https://aur.archlinux.org/$KERNEL.git"
+  if [ "$KERNEL_PRE_COMPILED" != "true" ]; then
+    sudo -u nobody git clone "https://aur.archlinux.org/$KERNEL.git"
+  fi
   cd "$KERNEL"
-  sudo -u nobody _use_llvm_lto="true" __subarch="MZEN3" MAKEFLAGS="--jobs=$(nproc)" PKGEXT=".pkg.tar" makepkg -cr --noconfirm --skippgpcheck
-  pacman -U --noconfirm "$KERNEL.pkg.tar"
-  cd ..
-  sudo -u nobody git clone "https://aur.archlinux.org/$KERNEL-headers.git"
-  cd "$KERNEL-headers"
-  sudo -u nobody _use_llvm_lto="true" __subarch="MZEN3" MAKEFLAGS="--jobs=$(nproc)" PKGEXT=".pkg.tar" makepkg -cr --noconfirm --skippgpcheck
-  pacman -U --noconfirm "$KERNEL-headers.pkg.tar"
+  if [ "$KERNEL_PRE_COMPILED" != "true" ]; then
+    sudo -u nobody _use_llvm_lto="true" __subarch="MZEN3" MAKEFLAGS="--jobs=$(nproc)" PKGEXT=".pkg.tar" makepkg -cr --noconfirm --skippgpcheck
+  fi
+  pacman -U --noconfirm *.pkg.tar
 
   # Set boot entry
   efibootmgr -b 0000 -B
