@@ -8,10 +8,11 @@ All of my custom configuration files are stored here in case something bad happe
 ---
 
 Steps to install:
-- Install Ventoy onto a flash drive
-- Place ISOs for Artix, recovery tools, other OSs, etc on the Ventoy partition
-- Clone this repo to the Ventoy partition
-- Customize your username and password in the install script
-- Follow the steps in the install script
-- Copy all configuration files over at the right time
-- Follow the steps in the post-install script
+- Install ventoy onto a flash drive
+- Place ISOs for artix, recovery tools, other OSs, etc on the Ventoy partition
+- Clone this repo to the ventoy partition
+- Boot the artix live cd and mount the ventoy partition
+- Edit the install script for your specific hardware
+- Call the install script with your desired username and password as arguments
+- Wait for the install to complete, and if it hangs, then run the unmount script and try to fix your issue
+- Reboot and run the post-install script

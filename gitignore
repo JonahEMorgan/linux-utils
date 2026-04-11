@@ -11,6 +11,7 @@
 !etc/hosts
 !etc/locale.conf
 !etc/localtime
+!etc/pacman.conf
 !etc/vconsole.conf
 !root/install.sh
 !root/unmount.sh

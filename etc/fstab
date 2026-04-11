@@ -1,3 +1,4 @@
 /dev/nvme0n1p2 / f2fs rw,lazytime,background_gc=on,nogc_merge,discard,discard_unit=block,inline_xattr,inline_data,inline_dentry,flush_merge,extent_cache,mode=adaptive,active_logs=6,checkpoint_merge,fsync_mode=posix,errors=continue,lookup_mode=perf 0 1
 /dev/nvme0n1p1 /boot/efi vfat fmask=0022,dmask=0022,utf8,errors=remount-ro 0 2
 /swapfile none swap defaults 0 0
+tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0
